@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     initialize: function () {
-      axios.get("http://pokemon-qiuz.herokuapp.com/api/quiz")
+      axios.get("/api/quiz")
         .then(response => {
             var data = response["data"]
             this.englishName = data["englishName"];
