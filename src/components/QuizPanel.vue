@@ -33,13 +33,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'QuizPanel',
   data: function () {
     return {
-      englishName: "psychokinesis",
-      japaneseName: "サイコキネシス",
-      hintText: ["ランクルスがおぼえるよ", "とくしゅわざだよ", "エスパータイプだよ"],
+      englishName: "",
+      japaneseName: "",
+      hintText: ["", "", ""],
       hintDisplay: ["ヒント ①", "ヒント ②", "ヒント ③"],
       isOpened: [false, false, false],
       userAnswer: "",
@@ -49,7 +51,25 @@ export default {
 
     }
   },
+  beforeRouteEnter(to,from,next) {
+    next(async (vm) => {
+      await vm.initialize();
+      next();
+    });
+  },
   methods: {
+    initialize: function () {
+      axios.get("http://pokemon-qiuz.herokuapp.com/api/quiz")
+        .then(response => {
+            var data = response["data"]
+            this.englishName = data["englishName"];
+            this.japaneseName = data["japaneseName"];
+            this.hintText = data["hintText"];
+            console.log(response);
+        }).catch(err => {
+            console.log("err:", err);
+        });
+    },
     openHint: function (i) {
       this.$set(this.isOpened, i, true)
       this.$set(this.hintDisplay, i, this.hintText[i])      
