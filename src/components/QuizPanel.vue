@@ -12,8 +12,12 @@
         </div>
       </div>
     </transition>
+    
     <div class="panel">
-      <div class="row panel-row">
+      <div v-if="isLoading" class="loading">
+        loading...
+      </div>
+      <div v-else class="row panel-row">
         <div class="col-md-5 panel-left d-flex flex-column justify-content-around align-items-center">
           <div class="box2 d-flex justify-content-center align-items-center">
             <font calss="text-wrap" style="width: 20rem;" size="5">{{ englishName }}</font>
@@ -23,13 +27,13 @@
           </form>
         </div>
         <div class="col-md-7 panel-right d-flex flex-column justify-content-around align-items-center">  
-          <div v-for="(hint,i) in hintDisplay" v-bind:key="i" v-on:click="openHint(i)"  v-bind:class="isOpened[i]?'hint-opended':'hint-closed'" class="d-flex justify-content-center align-items-center">
-            <font v-bind:color="isOpened[i]?'darkslateblue':'white'" calss="text-wrap" style="width: 20rem;" size="5">{{ hintDisplay[i] }}</font>
-          </div>
+        <div v-for="(hint,i) in hintDisplay" v-bind:key="i" v-on:click="openHint(i)"  v-bind:class="isOpened[i]?'hint-opended':'hint-closed'" class="d-flex justify-content-center align-items-center">
+          <font v-bind:color="isOpened[i]?'darkslateblue':'white'" calss="text-wrap" style="width: 20rem;" size="5">{{ hintDisplay[i] }}</font>
+        </div>
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -39,6 +43,7 @@ export default {
   name: 'QuizPanel',
   data: function () {
     return {
+      isLoading: true,
       englishName: "",
       japaneseName: "",
       hintText: ["", "", ""],
@@ -51,15 +56,12 @@ export default {
 
     }
   },
-  beforeRouteEnter(to,from,next) {
-    next(async (vm) => {
-      await vm.initialize();
-      next();
-    });
+  created() {
+    this.initialize();
   },
   methods: {
-    initialize: function () {
-      axios.get("/api/quiz")
+    initialize: async function () {
+      await axios.get("/api/quiz")
         .then(response => {
             var data = response["data"]
             this.englishName = data["englishName"];
@@ -69,6 +71,7 @@ export default {
         }).catch(err => {
             console.log("err:", err);
         });
+      this.isLoading = false;
     },
     openHint: function (i) {
       this.$set(this.isOpened, i, true)
