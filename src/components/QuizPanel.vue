@@ -18,15 +18,15 @@
         loading...
       </div>
       <div v-else class="row panel-row">
-        <div class="col-md-5 panel-left d-flex flex-column justify-content-around align-items-center">
+        <div class="col-md-6 panel-left d-flex flex-column justify-content-around align-items-center">
           <div class="box2 d-flex justify-content-center align-items-center">
             <font calss="text-wrap" style="width: 20rem;" size="5">{{ englishName }}</font>
           </div>
           <form v-on:submit.prevent v-on:submit="check" class="box2 d-flex justify-content-center align-items-center">
-            <input v-model="userAnswer" type="text" maxlength="10">
+            <input v-model="userAnswer" type="text" maxlength="10" placeholder="このわざの  にほんごめいは？">
           </form>
         </div>
-        <div class="col-md-7 panel-right d-flex flex-column justify-content-around align-items-center">  
+        <div class="col-md-6 panel-right d-flex flex-column justify-content-around align-items-center">  
         <div v-for="(hint,i) in hintDisplay" v-bind:key="i" v-on:click="openHint(i)"  v-bind:class="isOpened[i]?'hint-opended':'hint-closed'" class="d-flex justify-content-center align-items-center">
           <font v-bind:color="isOpened[i]?'darkslateblue':'white'" calss="text-wrap" style="width: 20rem;" size="5">{{ hintDisplay[i] }}</font>
         </div>
@@ -171,12 +171,12 @@ export default {
   padding: 0;
 }
 .box2 {
-  width: 80%;
+  width: 90%;
   height: 30%;
   border: 3px solid gray;
 }
 .hint-closed {
-  width: 80%;
+  width: 90%;
   height: 25%;
   background-color: darkslateblue;
   border-radius: 10px;
@@ -187,7 +187,7 @@ export default {
   filter: contrast(0.7);
 }
 .hint-opended {
-  width: 80%;
+  width: 90%;
   height: 25%;
   background-color: aliceblue;
   border-radius: 10px;
@@ -198,6 +198,9 @@ input {
   outline: none;
   text-align: center;
   font-size: 25px;
+}
+input::placeholder {
+  font-size: 18px;
 }
 
 </style>
