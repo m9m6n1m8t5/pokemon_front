@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header class="d-flex justify-content-center align-items-center">
-      <font color="white" size=7>ポケモンえいごクイズ</font>
+      ポケモンえいごクイズ
     </header>
     <router-view></router-view>
   </div>
@@ -31,5 +31,12 @@ header {
   align-items: center;
   margin-bottom: 30px;
   border-bottom: 5px solid gray;
+  font-size: 50px;
+  color: white;
+}
+@media (max-width:576px) {
+  header {
+    font-size: 37px;
+  }
 }
 </style>
